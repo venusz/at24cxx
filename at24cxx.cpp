@@ -47,7 +47,7 @@ bool AT24CXX::pollACK() {
 	_tw->beginTransmission(_id);
 	//digitalWrite(12, HIGH);
 	uint32_t pollingStart = millis();
-	while(millis()-pollingStart < 15)
+	while(millis()-pollingStart < 20)
 		if(!_tw->endTransmission())return true;
 	error = true;
 	return false;
@@ -57,7 +57,7 @@ bool AT24CXX::pollACK() {
  * Writing a byte
  */
 bool AT24CXX::write(unsigned int address, uint8_t data) {
-  if(pollACK()){  
+  if(pollACK()){
 		_tw->beginTransmission(_id);
 		_tw->write(address >> 8);
 		_tw->write(address & 0xFF);
@@ -95,6 +95,7 @@ bool AT24CXX::write(unsigned int address, uint8_t *data, int n) {
 		offD += bytes_to_write;
 		address += bytes_to_write;
 	}
+  delay(1);
 	return true;
 }
 
